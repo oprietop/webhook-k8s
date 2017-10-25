@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wh
+data:
+  wh.json: |
+    [
+      {
+        "id": "dmesg",
+        "execute-command": "dmesg",
+        "response-message": "Executing dmesg",
+      } ,
+      {
+        "id": "df",
+        "execute-command": "df-ha /",
+        "response-message": "Executing df",
+      } ,
+      {
+        "id": "mount",
+        "execute-command": "mount",
+        "response-message": "Executing df",
+      } ,
+      {
+        "id": "ps",
+        "execute-command": "ps afx",
+        "response-message": "Executing ps",
+      }
+    ]
+
+# https://github.com/adnanh/webhook/wiki/Hook-Examples

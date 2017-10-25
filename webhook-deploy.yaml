@@ -1,0 +1,44 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: webhook
+  labels:
+    app: webhook
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: webhook
+    spec:
+      containers:
+      - name: webhook
+        image: almir/webhook
+        command: ["/bin/sh","-c"]
+        args: ["/usr/local/bin/webhook -verbose -hooks=/wh.json -hotreload"]
+#        livenessProbe:
+#          periodSeconds: 30
+#          httpGet:
+#            path: /hook/
+#            port: 9000
+#        readinessProbe:
+#          periodSeconds: 30
+#          httpGet:
+#            path: /hook/
+#            port: 9000
+        volumeMounts:
+        - name: wh
+          mountPath: /wh.json
+          subPath: wh.json
+      volumes:
+      - name: wh
+        configMap:
+          name: wh
+          items:
+          - key: wh.json
+            path: wh.json
